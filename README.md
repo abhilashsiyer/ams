@@ -1,2 +1,1 @@
-# ams
-Automation Made Simple
+# AMS Automation Made Simple
