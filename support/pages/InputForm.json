@@ -1,0 +1,54 @@
+{
+  "elements": [
+  {
+    "name": "FirstName",
+    "identifier": "xpath",
+    "value": "//*[@name=\"first_name\"]"
+  },
+    {
+      "name": "LastName",
+      "identifier": "xpath",
+      "value": "//*[@name=\"last_name\"]"
+    },
+    {
+      "name": "Email",
+      "identifier": "name",
+      "value": "email"
+    },
+    {
+      "name": "Phone",
+      "identifier": "name",
+      "value": "phone"
+    },
+    {
+      "name": "Address",
+      "identifier": "name",
+      "value": "address"
+    },
+    {
+      "name": "City",
+      "identifier": "name",
+      "value": "city"
+    },
+    {
+      "name": "State",
+      "identifier": "name",
+      "value": "state"
+    },
+    {
+      "name": "ZIP",
+      "identifier": "name",
+      "value": "zip"
+    },
+    {
+      "name": "Send",
+      "identifier": "xpath",
+      "value": "//*[@type=\"submit\"]"
+    },
+    {
+      "name": "AgeSelected",
+      "identifier": "xpath",
+      "value": "//*[@id=\"isAgeSelected\"]"
+    }
+  ]
+}
