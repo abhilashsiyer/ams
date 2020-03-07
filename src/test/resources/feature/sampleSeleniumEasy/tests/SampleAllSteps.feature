@@ -5,8 +5,8 @@ Feature: Input value in a Sample Input Form
     Given Launch "https://www.seleniumeasy.com/test/"
 
   Scenario: Sample click examples
-    When click text "Simple Form Demo"
-    And click by id "sampleID"
+    When click by text "Simple Form Demo"
+    When click by id "sampleID"
     When click "showMessage" from json "home.json"
 
   Scenario: Sample enter Text examples

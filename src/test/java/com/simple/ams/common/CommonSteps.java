@@ -38,7 +38,7 @@ public class CommonSteps {
         core.element(By.id(id)).click();
     }
 
-    @And("^click text \"([^\"]*)\"$")
+    @And("^click by text \"([^\"]*)\"$")
     public void clickText(String text) {
         core.element(By.xpath("//*[text()='"+text+"']")).click();
     }
