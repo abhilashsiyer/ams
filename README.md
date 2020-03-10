@@ -1,21 +1,20 @@
-Automation made simple - AMS
-============================
-Are you 
-- Executing your web application tests manually ?
-- Not having expertise in building test automation ?
-- Worried to invest huge time in building a test automation framework ?
+# Automation made simple - AMS
+
+## Are you :worried:
+- testing your web application manually ?
+- not having expertise in building test automation ?
+- worried to invest huge time in building a test automation framework ?
 
 
-How about I say, You can resolve above problems without even having knowledge of programming !
---------------------------
+## How about I say, You can resolve above problems without even having knowledge of programming! 😉
 
-Introducing AMS (Automation Made Simple)
---------------------------
+## Introducing AMS (Automation Made Simple)
+
 
 What is AMS ?
 -------------------
 
-AMS (Automation Made Simple) aims to enable non programming individuals to automate their test cases.
+AMS (Automation Made Simple) is a Java-Maven based project that is designed to enable one to automate their test cases in English using [Gherkin](https://cucumber.io/docs/gherkin/reference/)
 
 How it works ?
 -------------------
