@@ -1,12 +1,12 @@
 # Automation made simple - AMS
 
-## Are you :worried:
+## Are you 👇
 - testing your web application manually ?
 - not having expertise in building test automation ?
 - worried to invest huge time in building a test automation framework ?
 
 
-## How about I say, You can resolve above problems without even having knowledge of programming! 😉
+### How about I say, You can resolve above problems without even having knowledge of programming! 😉
 
 ## Introducing AMS (Automation Made Simple)
 
@@ -30,15 +30,15 @@ Say following are the test steps-
 3. Click Male radio button and verify the checked value starts with Radio button
 
 With AMS, You write the above test steps as :
-
+```
 Given Launch "https://www.seleniumeasy.com/test/"
 When click "InputForm" from json "home.json"
 And click by text "Radio Buttons Demo"
 And click by text "Male"
 And click by id "buttoncheck"
 Then verify "RadioButton" in "radioButton.json" json shows "Radio button"
-
-That's it you have automated your test now !!
+```
+That's it you have automated your test now !! You are only required to write the steps in english and you're good to go ! 
 
 Before, I proceed with further steps, Lets get you setup -
 
@@ -56,34 +56,71 @@ Windows - https://www.youtube.com/watch?v=dz59GsdvUF8
 
 2. Clone the project to local (or download the ZIP from git - https://github.com/abhilashsiyer/ams)
 
-3. Open project in Intellij and IntelliJ will start downloading all the project dependecies. This might take about 5 minutes. Be sure you are not on any network that blocks calls to external internet.
+3. Open project in Intellij. IntelliJ will start downloading all the project dependecies. This might take about 5 minutes. Be sure you are not on any network that blocks calls to external internet.
 
-4. Next, Its time to out in first test
+Writing your first test -
+-------------------
 
-4.1 Right click on ams/src/test/resources/feature.sampleSelniumEasy/tests and select New->File
-4.2 Write any name you want for your test, I would name SampleRadioButton.feature
-4.3 Paste below code in the editor -
+First, pick any sample test, Lets use the same steps of the example mentioned above ,i.e
 
+1. Launch the web site https://www.seleniumeasy.com/test/
+2. Navigate to Radio Buttons Demo from Input Forms
+3. Click Male radio button and verify the checked value starts with Radio button
+
+Try doing the above steps manually before proceeding to automate.
+
+Steps to write your test script:
+
+1. Right click on ams/src/test/resources/feature/sampleSelniumEasy/tests and select New->File. 
+Note that you must write your test scripts only under feature directrory. I have further added dir's for better readability and maintainence.
+2. Write any name you want for your test, I would name SampleRadioButton.feature
+3. Paste below code in the editor -
+```
 @SampleRadioButton
 Feature: Sample Radio Button test
 
   Scenario: User can click Male radio button
-    Given Launch "https://www.seleniumeasy.com/test/"
-    When click "InputForm" from json "home.json"
-    And click by text "Radio Buttons Demo"
-    And click by text "Male"
-    And click by id "buttoncheck"
-    Then verify "RadioButton" in "radioButton.json" json shows "Radio button"
+```  
 
-This is the same test steps we derived in How it Works above
+The above is cucumber format of writing a feature. For more details go to - [Gherkin](https://cucumber.io/docs/gherkin/reference/)
 
-5. Lets run the test now - (https://www.jetbrains.com/help/idea/work-with-maven-goals.html)
-5.1 Click Maven from your right panel and then click on the big fat m icon
-5.2 You will be presented with Working Directory and command line.
-5.3 Enter command as clean test -Dcucumber.options="--tags @SampleRadioButton" 
-5.4 Click execute
+4. So, our first step is to Launch the web site https://www.seleniumeasy.com/test/. In AMS we will write ```Launch "https://www.seleniumeasy.com/test/"``` , Appending to above scenario, our scenario will now look like : 
 
-6. If you have done all the above steps correctly, A chrome browser will launch and execute your test !
+```
+@SampleRadioButton
+Feature: Sample Radio Button test
+
+  Scenario: User can click Male radio button
+  Given Launch "https://www.seleniumeasy.com/test/"
+  ```
+
+5. Next step is Navigate to Radio Buttons Demo from Input Forms. When you do this manually you see that you are doing two clicks. One on Input Form which opens a dropdown and then you click Radio Buttons Demo. In a very simple manner you may write - 
+```
+When click by text "InputForm" 
+And click by text "Radio Buttons Demo"
+```
+6. Further, you need to click Male radio button, Click button checked value and verify the checked value starts with Radio button. As Male doesn't have a unique ID , we will use text identifer as above but ```Get Checked ``` button has a unique ID which is ```buttoncheck``` . So how do you write when you have a unique ID ? You say :
+```
+And click by text "Male"
+And click by id "buttoncheck"
+```
+**Thus, If your web application has a unique id or a unique text, You can straight away input in AMS steps using :**
+```
+When click by text "Sample Text"
+When click by id "sampleID"
+```
+Before I proceed to "verify the checked value starts with Radio button", Lets run the steps we have created till now.
+
+Running your test -
+-------------------
+
+Since this is a maven project, you just need to run this project as a maven build. If you're unaware here is [Maven](https://www.jetbrains.com/help/idea/work-with-maven-goals.html)
+
+1. Click Maven from your right panel and then click on the big fat m icon
+2. You will be presented with Working Directory and command line.
+3. Enter command as clean test -Dcucumber.options="--tags @SampleRadioButton". This is the same value that yu have provided at the top of .feature file.
+4. Click execute
+5. If you have done all the above steps correctly, A chrome browser will launch and execute your test ! 
 
 
 Feature details -
