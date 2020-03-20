@@ -94,12 +94,16 @@ Feature: Sample Radio Button test
   Given Launch "https://www.seleniumeasy.com/test/"
   ```
 
-5. Next step is Navigate to Radio Buttons Demo from Input Forms. When you do this manually you see that you are doing two clicks. One on Input Form which opens a dropdown and then you click Radio Buttons Demo. In a very simple manner you may write - 
+5. Next step is Navigate to Radio Buttons Demo from Input Forms. When you do this manually you see that you are doing two clicks. One on Input Form which opens a dropdown and then you click on Radio Buttons Demo. In a very simple manner using the text as identifier you may write - 
 ```
 When click by text "InputForm" 
 And click by text "Radio Buttons Demo"
 ```
-6. Further, you need to click Male radio button, Click button checked value and verify the checked value starts with Radio button. As Male doesn't have a unique ID , we will use text identifer as above but ```Get Checked ``` button has a unique ID which is ```buttoncheck``` . So how do you write when you have a unique ID ? You say :
+6. Further, you need to click Male radio button, click on button Checked value and verify the value starts with Radio button. As Male doesn't have a unique ID , we will again use text identifer as above. However, ```Get Checked ``` button has a unique ID which is ```buttoncheck``` . 
+
+If a unique ID is available, it is always the most preferred value as an app developer can still keep the same ID but change the text based on business requirements. For more information on how to find identifers refer to https://www.softwaretestinghelp.com/locate-elements-in-chrome-ie-selenium-tutorial-7/.
+
+Coming back to our step, for our test step, we write -
 ```
 And click by text "Male"
 And click by id "buttoncheck"
@@ -123,79 +127,170 @@ Since this is a maven project, you just need to run this project as a maven buil
 5. If you have done all the above steps correctly, A chrome browser will launch and execute your test ! 
 
 
-Feature details -
-------------------
-As mentioned above, The aim of AMS is to automate test cases without need of knowledge on programming language.
+Using JSON for identifiers -
+------------------------
 
-The basis of building this framework is on the most commonly performed actions by a user on a web application which are Click, Enter a value or scroll a page.
+If you have looked at dom of any of web sites, You always see that its not feasable to always have a unique ID to every identifier. You use other identifiers such as CSS, XPATH, name etc.
 
-Now lets see how do you automate a click -
+Now how do you input these other identifiers in AMS ?
 
-You can write a step with click in following three ways -
+Let's take another example from the same website, Say below are your test steps now -
 
-When click by text "Simple Form Demo" -- You're clicking on a visible text
-When click by id "sampleID" --  You inspect the element and if an ID tag is available, you enter value here. 
-When click "showMessage" from json "home.json" -- As many a times a ID wouldn't be feasible to be provided, That's when you use this step.
+1. Launch the web site https://www.seleniumeasy.com/test/
+2. Navigate to Input Form Submit from Input Forms
+3. Enter the field First Name as "Test Name"
 
-So , how does it work or what does click "showMessage" from json "home.json" mean ?
+When you inspect the value of field First Name you see that the unique identifier is name. 
 
-Open home.json from support/pages and you will see a list of elements. Here is where you mention your keyword "showMessage" in our case and provide the identifier values.
+In AMS, you will write this step as :
 
-I am using xpath in this scenario, So I will add a list to this element as -
+```
+ And enter value as "FirstTest" at "FirstName" from json" InputForm.json"
+```
+So, what are these values ?
 
+For any non text or ID identifiers, you define a JSON page and provide the value in that JSON -
+
+For the example above, You will create a JSON file with name say InputForm.json in support/pages and enter value as below :
+
+```
 {
-    "name": "RadioButton",
-    "identifier": "xpath",
-    "value": "//*[@id=\"easycont\"]/div/div[2]/div[1]/div[2]/p[3]"
+   "name": "FirstName",
+   "identifier": "name",
+   "value": "first_name"
+  }
+```  
+under the elements list [] in the json. To further understand this case, lets say you want to enter last name field as "LastTest" , you will do the exact same steps but append to elements list. Your complete json will now look like -
+
+```
+{
+  "elements": [
+  {
+    "name": "FirstName",
+    "identifier": "name",
+    "value": "first_name"
+  },
+    {
+      "name": "LastName",
+      "identifier": "name",
+      "value": "last_name"
+    }
+  ]
 }
+```
+If you want to CSS instead to keep uniformity acrss the framework, You could also the write the above as -
+```
+{
+    "name": "FirstName",
+    "identifier": "css",
+    "value": "input[name='first_name']"
+  }
+```
+Similarly, XPATH will be 
 
-Thus, what we are saying to the framework is click on showMessage using details from the json Radiobutton.json and the framework will click on the xpath identifer mentioned above.
+```
+{
+    "name": "FirstName",
+    "identifier": "xpath",
+    "value": "//*[@name=\"first_name\"]"
+  }
+```
+So, your steps to enter Firstname and last name will look like -
 
-If you are not aware of how to find unique identifiers, You ncan google it or can also follow - https://www.protechtraining.com/content/selenium_tutorial-locators
+```
+@SampleRadioButton
+Feature: Sample Radio Button test
 
-Very simalarly is how an enter text work -
+  Scenario: User can click Male radio button
+  Given Launch "https://www.seleniumeasy.com/test/"
+  When click "InputForm" from json "home.json"
+  And click by text "Input Form Submit"
+  And enter value as "FirstTest" at "FirstName" from json" InputForm.json"
+  And enter value as "LastTest" at "LastName" from json" InputForm.json"
+    
+  ```
+Maintainence -
+------------------
+When you see the above scenario, two steps are common i.e -
 
-When enter value as "This is my first test" at id "user-message"
-When enter value as "1 street" at "Address" from json" InputForm.json"
+```
+@SampleRadioButton
+Feature: Sample Radio Button test
 
-If you are looking to scroll then -
-When scroll to "InputForm" from json "home.json"
+  Scenario: User can click Male radio button
+  Given Launch "https://www.seleniumeasy.com/test/"
+  When click "InputForm" from json "home.json"
+  
+```
+Now, Do you need to repeat the same steps everywhere ? 
 
+The anwser is No, AMS brings you the capability to reuse your steps. Lets split the above steps as launching a website can be used for more operations. Lets write this as :
 
-Dropdown is using - 
+```
+@Home
+Feature: Home features
+  @LaunchWebPage
+  Scenario: Launch Webpage
+    Given Launch "https://www.seleniumeasy.com/test/"
 
-When select visible text "Alaska" in "State" dropdown from json "InputForm.json"
+  @OpenInputForm
+  Scenario: Open Input Form
+    When click "InputForm" from json "home.json"
+```
 
+Since we are writing our sample tests in Input Form tab, we can simply write this as : 
+```
+ @LaunchWebPageAndOpenInputForm
+  Scenario: Open Input Form
+    Given Run steps from tag"@LaunchWebPage"
+    And Run steps from tag"@OpenInputForm"
+ ```
+ Now, our test scenario will look like - 
+ ```
+ Scenario: User can click Male radio button
+    Given Run steps from tag"@LaunchWebPageAndOpenInputForm"
+    And click by text "Radio Buttons Demo"
+    And click by text "Male"
+    
+```    
+##  Features -
 
-As this primarly focuses on Test Automation, You need verification checks which are achieved by -
+This is an experiment I am trying and looking forward to add more features to this framework. As of today following steps are supported -
 
-Then verify that at id "display" shows "This is my first test"
+```
+Feature: Input value in a Sample Input Form
+
+  Background: User has launched web page and opened Input Form
+    Given Run steps from tag"@LaunchWebPageAndOpenInputForm"
+    Given Launch "https://www.seleniumeasy.com/test/"
+
+  Scenario: Sample click examples
+    When click by text "Simple Form Demo"
+    When click by id "sampleID"
+    When click "showMessage" from json "home.json"
+
+  Scenario: Sample enter Text examples
+    When enter value as "This is my first test" at id "user-message"
+    When enter value as "1 street" at "Address" from json" InputForm.json"
+
+  Scenario: Sample scroll examples
+    When scroll to "InputForm" from json "home.json"
+
+  Scenario: Sample select from dropdown
+    When select visible text "Alaska" in "State" dropdown from json "InputForm.json"
+
+  Scenario: Sample verification examples
+    Then verify that at id "display" shows "This is my first test"
     Then verify "This is my first test" id is shown
     Then verify "This is my first test" text is shown
     Then verify "InputForm" in "home.json" json shows "This is my first test"
 
+```
 
-Maintainence -
-------------------
+Feel free to contribute if you're intersted and I wouldn't mind if anyone wants to replicate the same logic in JS.
 
-You may argue, Hey how I am going to main so many steps. One change and I need to change ecerywhere !
-
-Solution - 
+Hope you all have fun automating your tests. 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+##  Author -
+Abhilashsiyer@gmail.com
