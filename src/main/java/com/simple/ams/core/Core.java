@@ -6,11 +6,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import cucumber.api.Scenario;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -22,7 +27,14 @@ public class Core {
     private WebDriver driver;
 
     public void launchWebSite(String url){
-        this.driver= new ChromeDriver();
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        try {
+            this.driver = new RemoteWebDriver(new URL("http://selenium__standalone-chrome:4444/wd/hub"), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+//
+//        this.driver= new ChromeDriver();
         driver.navigate().to(url);
         driver.manage().window().maximize() ;
     }
