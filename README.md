@@ -1,35 +1,37 @@
 # Automation made simple - AMS
 
 ## Are you 👇
-- testing your web application manually ?
-- not having expertise in building test automation ?
-- worried to invest huge time in building a test automation framework ?
+- testing your web application manually?
+- not having expertise in building test automation?
+- worried about investing huge time in building a test automation framework?
 
 
-### How about I say, You can resolve above problems without even having knowledge of programming! 😉
 
-## Introducing AMS (Automation Made Simple)
+## How about I say, You can resolve above problems without even having knowledge of programming! 😉
+
+# Introducing AMS (Automation Made Simple)
 
 
 What is AMS ?
--------------------
+-------------
 
 AMS (Automation Made Simple) is a Java-Maven based project that is designed to enable one to automate their test cases in English using [Gherkin](https://cucumber.io/docs/gherkin/reference/)
 
 How it works ?
--------------------
+--------------
 
 Lets take an example web application - "https://www.seleniumeasy.com/test/"
 
 Your test scenario is to verify Radio button functionality in the above web application.
 
-Say following are the test steps-
+Following are the test steps-
 
 1. Launch the web site
 2. Navigate to Radio Buttons Demo from Input Forms
 3. Click Male radio button and verify the checked value starts with Radio button
 
-With AMS, You write the above test steps as :
+
+With AMS, You write the above test steps as : :
 ```
 Given Launch "https://www.seleniumeasy.com/test/"
 When click "InputForm" from json "home.json"
@@ -38,7 +40,7 @@ And click by text "Male"
 And click by id "buttoncheck"
 Then verify "RadioButton" in "radioButton.json" json shows "Radio button"
 ```
-That's it you have automated your test now !! You are only required to write the steps in english and you're good to go ! 
+That's it, you have automated your test now. You just need to write the steps in english and you're good to go! 
 
 Before, I proceed with further steps, Lets get you setup -
 
@@ -59,15 +61,15 @@ Windows - https://www.youtube.com/watch?v=dz59GsdvUF8
 3. Open project in Intellij. IntelliJ will start downloading all the project dependecies. This might take about 5 minutes. Be sure you are not on any network that blocks calls to external internet.
 
 Writing your first test -
--------------------
+-------------------------
 
-First, pick any sample test, Lets use the same steps of the example mentioned above ,i.e
+First, pick any sample test, let's use the same steps of the example mentioned before:
 
 1. Launch the web site https://www.seleniumeasy.com/test/
 2. Navigate to Radio Buttons Demo from Input Forms
-3. Click Male radio button and verify the checked value starts with Radio button
+3. Click Male radio button and verify the value starts with Radio button
 
-Try doing the above steps manually before proceeding to automate.
+I would suggest doing the above steps manually first before proceeding to automate.
 
 Steps to write your test script:
 
@@ -113,7 +115,10 @@ And click by id "buttoncheck"
 When click by text "Sample Text"
 When click by id "sampleID"
 ```
-Before I proceed to "verify the checked value starts with Radio button", Lets run the steps we have created till now.
+Similary, for step "verify the checked value starts with Radio button", You write :
+```
+Then verify "Radio button" text is shown
+```
 
 Running your test -
 -------------------
@@ -128,13 +133,13 @@ Since this is a maven project, you just need to run this project as a maven buil
 
 
 Using JSON for identifiers -
-------------------------
+---------------------------
 
-If you have looked at dom of any of web sites, You always see that its not feasable to always have a unique ID to every identifier. You use other identifiers such as CSS, XPATH, name etc.
+If you have looked at the DOM of any of the web sites, You always see that it's not feasible to always have a unique ID to every identifier. You use other identifiers such as CSS, XPATH, name etc.
 
-Now how do you input these other identifiers in AMS ?
+Now, how do you input these other identifiers in AMS?
 
-Let's take another example from the same website, Say below are your test steps now -
+Let's take another example from the same website using the below steps -
 
 1. Launch the web site https://www.seleniumeasy.com/test/
 2. Navigate to Input Form Submit from Input Forms
@@ -149,7 +154,7 @@ In AMS, you will write this step as :
 ```
 So, what are these values ?
 
-For any non text or ID identifiers, you define a JSON page and provide the value in that JSON -
+For any non text or ID identifiers, you define a JSON page and provide the value in that JSON.
 
 For the example above, You will create a JSON file with name say InputForm.json in support/pages and enter value as below :
 
@@ -160,7 +165,7 @@ For the example above, You will create a JSON file with name say InputForm.json 
    "value": "first_name"
   }
 ```  
-under the elements list [] in the json. To further understand this case, lets say you want to enter last name field as "LastTest" , you will do the exact same steps but append to elements list. Your complete json will now look like -
+under the elements list [] in the json. To further understand this case, let's say you want to enter the last name field as "LastTest", you will do the exact same steps but append to elements list. Your complete json will now look like :
 
 ```
 {
@@ -178,7 +183,7 @@ under the elements list [] in the json. To further understand this case, lets sa
   ]
 }
 ```
-If you want to CSS instead to keep uniformity acrss the framework, You could also the write the above as -
+If you want to use the CSS identifier instead across the framework, you could write as:
 ```
 {
     "name": "FirstName",
@@ -195,7 +200,7 @@ Similarly, XPATH will be
     "value": "//*[@name=\"first_name\"]"
   }
 ```
-So, your steps to enter Firstname and last name will look like -
+So, your steps to enter Firstname and last name will look like :
 
 ```
 @SampleRadioButton
@@ -211,7 +216,7 @@ Feature: Sample Radio Button test
   ```
 Maintainence -
 ------------------
-When you see the above scenario, two steps are common i.e -
+When you see the above scenario, the following two steps are common across all tests:
 
 ```
 @SampleRadioButton
@@ -222,9 +227,9 @@ Feature: Sample Radio Button test
   When click "InputForm" from json "home.json"
   
 ```
-Now, Do you need to repeat the same steps everywhere ? 
+Do you need to repeat the same steps every time in every test case?
 
-The anwser is No, AMS brings you the capability to reuse your steps. Lets split the above steps as launching a website can be used for more operations. Lets write this as :
+The anwser is No, AMS brings you the capability to reuse your steps. Now, let's split the above steps as  “launching a website” and clicking on “InputForm” is be used for more operations:
 
 ```
 @Home
@@ -238,7 +243,7 @@ Feature: Home features
     When click "InputForm" from json "home.json"
 ```
 
-Since we are writing our sample tests in Input Form tab, we can simply write this as : 
+Since we are writing our sample tests in Input Form tab, we can simply write this as :
 ```
  @LaunchWebPageAndOpenInputForm
   Scenario: Open Input Form
@@ -255,7 +260,7 @@ Since we are writing our sample tests in Input Form tab, we can simply write thi
 ```    
 ##  Features -
 
-This is an experiment I am trying and looking forward to add more features to this framework. As of today following steps are supported -
+This is an experiment I am trying and looking forward to adding more features to this framework. As of today following features are supported :
 
 ```
 Feature: Input value in a Sample Input Form
